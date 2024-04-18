@@ -23,7 +23,7 @@ public class ScreenTimeController {
     }
 
     private void setupTimeline() {
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(2), event -> {
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(5), event -> {
             fetchDataFromDB();
             System.out.println("Data updated");
         }));
