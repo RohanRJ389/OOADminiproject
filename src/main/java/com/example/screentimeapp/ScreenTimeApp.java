@@ -20,4 +20,6 @@ public class ScreenTimeApp extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
+
 }

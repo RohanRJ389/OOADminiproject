@@ -30,7 +30,7 @@ public class ScreenTimeView implements Observer {
     private PieChart appWisePieChart;
     private TableView<AppUsage> appWiseTable;
     private TableView<TodoTask> todoListTable; // Add TableView for todo list
-
+    private Button addTaskButton;
     public ScreenTimeView(Stage primaryStage) {
         this.primaryStage = primaryStage;
         initialize();
@@ -77,7 +77,8 @@ public class ScreenTimeView implements Observer {
 
         todoListTable = new TableView<>();
         todoListTable.getColumns().addAll(taskColumn, statusColumn, deadlineColumn);
-
+        Button addTaskButton = new Button("Add Task");
+//        addTaskButton.setOnAction(event -> addTaskDialog());
         // Layout for home scene
         VBox homeLayout = new VBox(10);
         homeLayout.getChildren().addAll(totalScreenTimeLabel, switchToAppWiseButton, todoListButton); // Add todo list button
@@ -90,7 +91,7 @@ public class ScreenTimeView implements Observer {
 
         // Layout for todo list scene
         VBox todoListLayout = new VBox(10);
-        todoListLayout.getChildren().addAll(todoListTable, todoListBackButton); // Add TableView to layout
+        todoListLayout.getChildren().addAll(todoListTable, addTaskButton, todoListBackButton); // Add add task button
         todoListScene = new Scene(todoListLayout, 600, 400);
 
         // Set home scene as initial scene
