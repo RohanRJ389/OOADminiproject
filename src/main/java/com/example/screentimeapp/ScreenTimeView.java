@@ -2,6 +2,7 @@ package com.example.screentimeapp;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
@@ -11,11 +12,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
+import java.util.*;
 import java.sql.*;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import javafx.scene.control.TextInputDialog;
 
 public class ScreenTimeView implements Observer {
 
@@ -30,13 +32,17 @@ public class ScreenTimeView implements Observer {
     private PieChart appWisePieChart;
     private TableView<AppUsage> appWiseTable;
     private TableView<TodoTask> todoListTable; // Add TableView for todo list
-
+    private VBox goalsAndRewardsGroup; // Add TableView for todo list
+    private Label goalsAndRewardsLabel; // Add TableView for todo list
+    private Button newGoalButton; // Add TableView for todo list
+    private List<String> allgoals;
     public ScreenTimeView(Stage primaryStage) {
         this.primaryStage = primaryStage;
         initialize();
     }
 
     private void initialize() {
+        allgoals= new ArrayList();
         primaryStage.setTitle("Screen Time App");
 
         // Create components for home scene (total screen time)
@@ -45,6 +51,29 @@ public class ScreenTimeView implements Observer {
         switchToAppWiseButton.setOnAction(event -> primaryStage.setScene(appWiseScene));
         todoListButton = new Button("Todo List"); // Create button for todo list
         todoListButton.setOnAction(event -> primaryStage.setScene(todoListScene)); // Set action for todo list button
+
+
+        goalsAndRewardsGroup = new VBox();
+        goalsAndRewardsLabel = new Label("Your goals and rewards:");
+        newGoalButton = new Button(" + New goal");
+        newGoalButton.setOnAction(event -> {
+            
+            TextInputDialog dialog = new TextInputDialog();
+            dialog.setTitle("Enter new task");
+            dialog.setHeaderText("Enter task name here:");
+            
+            Optional<String> result = dialog.showAndWait();
+            String restext = result.get();
+            allgoals.add(restext);
+            
+            goalsAndRewardsGroup.getChildren().add(new Label(restext));
+            System.out.println(goalsAndRewardsGroup.getChildren());
+            goalsAndRewardsGroup.resize(400, 400);
+        });
+        goalsAndRewardsGroup.getChildren().addAll(goalsAndRewardsLabel, newGoalButton);
+        
+      
+
 
         // Create components for app-wise scene
         appWisePieChart = new PieChart();
@@ -78,10 +107,18 @@ public class ScreenTimeView implements Observer {
         todoListTable = new TableView<>();
         todoListTable.getColumns().addAll(taskColumn, statusColumn, deadlineColumn);
 
+        Scene goalsscene = new Scene(goalsAndRewardsGroup, 300, 200); // Width and height of the scene
+        
+        Button rewardspagebutton = new Button("Goals & Rewards");
+        rewardspagebutton.setOnAction(event -> primaryStage.setScene(goalsscene)); // Set action for todo list back button
+
+        
         // Layout for home scene
         VBox homeLayout = new VBox(10);
-        homeLayout.getChildren().addAll(totalScreenTimeLabel, switchToAppWiseButton, todoListButton); // Add todo list button
+        homeLayout.getChildren().addAll(totalScreenTimeLabel, switchToAppWiseButton, todoListButton,rewardspagebutton); // Add todo list button
         homeScene = new Scene(homeLayout, 300, 200);
+
+
 
         // Layout for app-wise scene
         VBox appWiseLayout = new VBox(10);
