@@ -5,7 +5,7 @@ package com.example.screentimeapp;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-
+// ew
 public class ScreenTimeApp extends Application {
 
     @Override
