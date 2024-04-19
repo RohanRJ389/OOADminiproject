@@ -1,0 +1,24 @@
+/* Center everything */
+.root {
+    -fx-alignment: center;
+}
+
+/* Style buttons */
+.button {
+    -fx-font-size: 14px;
+    -fx-padding: 10px 20px;
+    -fx-margin: 10px 20px;
+    -fx-background-color: #4CAF50; /* Green */
+    -fx-text-fill: white;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+.button:hover {
+    -fx-background-color: #45a049; /* Darker Green */
+}
+
+.button:pressed {
+    -fx-background-color: #3e8e41; /* Even Darker Green */
+}
+
