@@ -1,6 +1,10 @@
 // ScreenTimeModel.java
 package com.example.screentimeapp;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -48,4 +52,67 @@ public class ScreenTimeModel extends Observable {
         setChanged();
         notifyObservers();
     }
+
+    public void addTask(String taskName) {
+        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:src/main/resources/com/example/screentimeapp/digital_wellbeing.db");
+             PreparedStatement stmt = conn.prepareStatement("INSERT INTO TodoList (task, status, deadline) VALUES (?, ?, ?)")) {
+            // Set parameters for the prepared statement
+            stmt.setString(1, taskName);
+            stmt.setBoolean(2, false); // Assuming status is initially false for new tasks
+            // Set default deadline or prompt user to input deadline
+            stmt.setString(3, "Default Deadline"); // Example default deadline
+            // Execute the update
+            stmt.executeUpdate();
+            // Refresh data after adding the task
+//            fetchDataFromDB();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public static class AppUsage {
+        private String appName;
+        private int screenTime;
+
+        public AppUsage(String appName, int screenTime) {
+            this.appName = appName;
+            this.screenTime = screenTime;
+        }
+
+        public String getAppName() {
+            return appName;
+        }
+
+        public int getScreenTime() {
+            return screenTime;
+        }
+    }
+    public static class TodoTask {
+        private String task;
+        private boolean status;
+        private String deadline;
+
+        public TodoTask(String task, boolean status, String deadline) {
+            this.task = task;
+            this.status = status;
+            this.deadline = deadline;
+        }
+
+        public String getTask() {
+            return task;
+        }
+
+        public boolean getStatus() {
+            return status;
+        }
+
+        public String getDeadline() {
+            return deadline;
+        }
+    }
+
+
+
+
 }

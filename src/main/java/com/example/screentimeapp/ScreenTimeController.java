@@ -1,13 +1,14 @@
-// ScreenTimeController.java
 package com.example.screentimeapp;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.scene.control.TextInputDialog;
 import javafx.util.Duration;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class ScreenTimeController {
 
@@ -54,5 +55,37 @@ public class ScreenTimeController {
 
         model.setTotalScreenTime(totalScreenTime);
         model.updateScreenTimeData(appNames, appUsages);
+    }
+
+    public void addTaskDialog() {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Add Task");
+        dialog.setHeaderText("Enter task details:");
+        dialog.setContentText("Task Name:");
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(taskName -> {
+            // Get task details from dialog and add to the model
+            model.addTask(taskName);
+        });
+    }
+
+    public void startPomodoro() {
+        // Start pomodoro timer logic
+        view.startPomodoro();
+    }
+
+    public void startBreak() {
+        // Start break timer logic
+        view.startBreak();
+    }
+
+    public void updateStopwatchDisplay() {
+        // Update stopwatch display logic
+        view.updateStopwatchDisplay();
+    }
+
+    public void endSession() {
+        // End pomodoro session logic
+        view.endSession();
     }
 }
