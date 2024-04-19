@@ -22,6 +22,7 @@ import java.util.Optional;
 
 import com.example.screentimeapp.ScreenTimeModel.*;
 
+
 public class ScreenTimeView implements Observer {
 
     private Stage primaryStage;
@@ -68,14 +69,16 @@ public class ScreenTimeView implements Observer {
 
         todoListButton = new Button("Todo List");
         todoListButton.setOnAction(event -> primaryStage.setScene(todoListScene));
-
+        
         pomodoroInButton = new Button("Pomodoro Timer");
         pomodoroInButton.setOnAction(event -> primaryStage.setScene(pomodoroScene));
-
+        
         journalingButton = new Button("Journaling");
-
+        
         goalsAndRewardsGroup = new VBox();
         goalsAndRewardsLabel = new Label("Your goals and rewards:");
+        Button gandrbackbtn = new Button("Back to home.");
+        gandrbackbtn.setOnAction(event -> primaryStage.setScene(homeScene));
         newGoalButton = new Button(" + New goal");
         newGoalButton.setOnAction(event -> {
             TextInputDialog dialog = new TextInputDialog();
@@ -88,7 +91,7 @@ public class ScreenTimeView implements Observer {
                 goalsAndRewardsGroup.getChildren().add(new Label(restext));
             });
         });
-        goalsAndRewardsGroup.getChildren().addAll(goalsAndRewardsLabel, newGoalButton);
+        goalsAndRewardsGroup.getChildren().addAll(goalsAndRewardsLabel, newGoalButton,gandrbackbtn);
 
         // Create components for app-wise scene
         appWisePieChart = new PieChart();
@@ -123,52 +126,68 @@ public class ScreenTimeView implements Observer {
         todoListTable.getColumns().addAll(taskColumn, statusColumn, deadlineColumn);
 
         Scene goalsscene = new Scene(goalsAndRewardsGroup, 300, 200);
-
+        goalsscene.getStylesheets().add("styles.css");
         Button rewardspagebutton = new Button("Goals & Rewards");
         rewardspagebutton.setOnAction(event -> primaryStage.setScene(goalsscene));
-
+        
         // Layout for home scene
         VBox homeLayout = new VBox(20); // Increased spacing
         homeLayout.getChildren().addAll(
-                totalScreenTimeLabel,
-                switchToAppWiseButton,
-                todoListButton,
-                rewardspagebutton,
-                pomodoroInButton,
-                journalingButton // Add journaling button
-        );
-        homeScene = new Scene(homeLayout, 400, 300); // Increased width and height
-
+            totalScreenTimeLabel,
+            switchToAppWiseButton,
+            todoListButton,
+            rewardspagebutton,
+            pomodoroInButton,
+            journalingButton // Add journaling button
+            );
+        homeScene = new Scene(homeLayout, 650, 370); // Increased width and height
+        homeScene.getStylesheets().add("styles.css");
+        
         // Layout for app-wise scene
         VBox appWiseLayout = new VBox(20); // Increased spacing
         appWiseLayout.getChildren().addAll(appWisePieChart, appWiseTable, appWiseBackButton);
         appWiseScene = new Scene(appWiseLayout, 600, 400);
+        appWiseScene.getStylesheets().add("styles.css");
+        
+        Button createNewTask = new Button("Create new task");
+        createNewTask.setOnAction( event -> {
+            TextInputDialog dialog = new TextInputDialog();
+            dialog.setTitle("Enter new task");
+            dialog.setHeaderText("Enter task name here:");
+
+            Optional<String> result = dialog.showAndWait();
+            result.ifPresent(restext -> {
+               ScreenTimeModel.addTask(restext);
+            });
+        });
 
         // Layout for todo list scene
         VBox todoListLayout = new VBox(20); // Increased spacing
-        todoListLayout.getChildren().addAll(todoListTable, todoListBackButton);
+        todoListLayout.getChildren().addAll(todoListTable, todoListBackButton, createNewTask);
         todoListScene = new Scene(todoListLayout, 600, 400);
-
+        todoListScene.getStylesheets().add("styles.css");
+        
         stopwatchLabel = new Label("00:00:00");
-
+        
         // Layout for pomodoro
         VBox pomodoroLayout = new VBox(20); // Increased spacing
         Button pomodoroButton = new Button("Start Pomodoro");
         pomodoroButton.setOnAction(event -> startPomodoro());
-
+        
         Button breakButton = new Button("Take a Break");
         breakButton.setOnAction(event -> startBreak());
-
+        
         Button endSessionButton = new Button("End Session");
         endSessionButton.setOnAction(event -> endSession());
-
+        
         pomodoroLayout.getChildren().addAll(pomodoroButton, breakButton, endSessionButton, stopwatchLabel);
         pomodoroScene = new Scene(pomodoroLayout, 600, 400);
-
+        pomodoroScene.getStylesheets().add("styles.css");
+        
         journalTextArea = new TextArea();
         journalTextArea.setPromptText("Write your journal entry here...");
         journalListView = new ListView<>();
-
+        
         // Create button for adding an entry
         Button addEntryButton = new Button("Add Entry");
         addEntryButton.setOnAction(event -> {
@@ -177,38 +196,38 @@ public class ScreenTimeView implements Observer {
             journalListView.getItems().add(entry);
             journalTextArea.clear(); // Clear the text area after adding the entry
         });
-
+        
         // Create VBox for journaling
         VBox journalingLayout = new VBox(20); // Increased spacing
         Button backToHomeButton = new Button("Back to Home");
         backToHomeButton.setOnAction(event -> primaryStage.setScene(homeScene));
-
+        
         journalingLayout.getChildren().addAll(
-                journalTextArea,
-                addEntryButton,
-                journalListView,
-                backToHomeButton
-        );
-
-        Scene journalScene = new Scene(journalingLayout, 600, 400);
-        journalingButton.setOnAction(event -> primaryStage.setScene(journalScene));
-//        String cssFile = getClass().getResource("styles.css").toExternalForm();
-//        homeScene.getStylesheets().add(cssFile);
-//        appWiseScene.getStylesheets().add(cssFile);
-//        todoListScene.getStylesheets().add(cssFile);
-//        pomodoroScene.getStylesheets().add(cssFile);
-//        journalScene.getStylesheets().add(cssFile);
-        primaryStage.setScene(homeScene);
-    }
-
-    public void show() {
-        primaryStage.show();
-    }
-
-    @Override
-    public void update(Observable o, Object arg) {
-        if (o instanceof ScreenTimeModel) {
-            ScreenTimeModel model = (ScreenTimeModel) o;
+            journalTextArea,
+            addEntryButton,
+            journalListView,
+            backToHomeButton
+            );
+            
+            Scene journalScene = new Scene(journalingLayout, 600, 400);
+            journalingButton.setOnAction(event -> primaryStage.setScene(journalScene));
+            //        String cssFile = getClass().getResource("styles.css").toExternalForm();
+            //        homeScene.getStylesheets().add(cssFile);
+            //        appWiseScene.getStylesheets().add(cssFile);
+            //        todoListScene.getStylesheets().add(cssFile);
+            //        pomodoroScene.getStylesheets().add(cssFile);
+            //        journalScene.getStylesheets().add(cssFile);
+            primaryStage.setScene(homeScene);
+        }
+        
+        public void show() {
+            primaryStage.show();
+        }
+        
+        @Override
+        public void update(Observable o, Object arg) {
+            if (o instanceof ScreenTimeModel) {
+                ScreenTimeModel model = (ScreenTimeModel) o;
             totalScreenTimeLabel.setText("Total Screen Time: " + model.getTotalScreenTime() + " minutes");
             updateAppWisePieChart(model.getAppNames(), model.getAppUsages());
             updateAppWiseTable(model.getAppNames(), model.getAppUsages());
@@ -219,7 +238,7 @@ public class ScreenTimeView implements Observer {
     private void populateTodoListTable() {
         // Fetch data from the database and populate todoListTable
         ObservableList<TodoTask> todoListData = FXCollections.observableArrayList();
-        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:src/main/resources/com/example/screentimeapp/digital_wellbeing.db");
+        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:src/main/resources/digital_wellbeing.db");
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT task, status, deadline FROM TodoList")) {
 

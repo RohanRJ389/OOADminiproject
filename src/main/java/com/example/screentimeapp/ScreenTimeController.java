@@ -37,7 +37,7 @@ public class ScreenTimeController {
         List<Integer> appUsages = new ArrayList<>();
         int totalScreenTime = 0;
 
-        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:src/main/resources/com/example/screentimeapp/digital_wellbeing.db");
+        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:src/main/resources/digital_wellbeing.db");
              PreparedStatement stmt = conn.prepareStatement("SELECT app_name, current_usage FROM Digital_Wellbeing");
              ResultSet rs = stmt.executeQuery()) {
 

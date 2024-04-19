@@ -53,14 +53,14 @@ public class ScreenTimeModel extends Observable {
         notifyObservers();
     }
 
-    public void addTask(String taskName) {
-        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:src/main/resources/com/example/screentimeapp/digital_wellbeing.db");
+    public static void addTask(String taskName) {
+        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:src/main/resources/digital_wellbeing.db");
              PreparedStatement stmt = conn.prepareStatement("INSERT INTO TodoList (task, status, deadline) VALUES (?, ?, ?)")) {
             // Set parameters for the prepared statement
             stmt.setString(1, taskName);
             stmt.setBoolean(2, false); // Assuming status is initially false for new tasks
             // Set default deadline or prompt user to input deadline
-            stmt.setString(3, "Default Deadline"); // Example default deadline
+            stmt.setString(3, "19-04-2024"); // Example default deadline
             // Execute the update
             stmt.executeUpdate();
             // Refresh data after adding the task
