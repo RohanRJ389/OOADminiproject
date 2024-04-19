@@ -1,5 +1,7 @@
-package com.example.screentimeapp;
+package com.example.screentimeapp.screentimeapp;
 
+import com.example.screentimeapp.ScreenTimeModel.AppUsage;
+import com.example.screentimeapp.ScreenTimeModel.TodoTask;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -14,22 +16,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.Optional;
-
-import com.example.screentimeapp.ScreenTimeModel.*;
-
-import javafx.application.Application;
-import javafx.stage.Stage;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.layout.VBox;
-import javafx.scene.Parent;
-import java.net.URL;
+import java.util.*;
 
 
 public class ScreenTimeView implements Observer {
@@ -90,9 +77,7 @@ public class ScreenTimeView implements Observer {
         
         journalingButton = new Button("Journaling");
 
-        themeToggleButton = new Button("Toggle Theme");
-//        ToggleButton themeToggleButton = new ToggleButton("Toggle Theme");
-        themeToggleButton.setOnAction(event -> primaryStage.setScene(homeScene));
+        ToggleButton themeToggleButton = new ToggleButton("Toggle Theme");
         themeToggleButton.setOnAction(event -> switchTheme());
         
         goalsAndRewardsGroup = new VBox();
@@ -240,21 +225,11 @@ public class ScreenTimeView implements Observer {
         }
 
     private void switchTheme() {
-//        String[] scenes_list = new String[10];
-//        scenes_list[10] = {"homeScene", "appWiseScene", "pomodoroScene", "journalScene", "todoListScene"};
         if ("light".equals(currentTheme)) {
             homeScene.getStylesheets().add("styles_dark.css");
-            appWiseScene.getStylesheets().add("styles_dark.css");
-            pomodoroScene.getStylesheets().add("styles_dark.css");
-            journalScene.getStylesheets().add("styles_dark.css");
-            todoListScene.getStylesheets().add("styles_dark.css");
             currentTheme = "dark";
         } else if ("dark".equals(currentTheme)) {
             homeScene.getStylesheets().add("styles_light.css");
-            appWiseScene.getStylesheets().add("styles_light.css");
-            pomodoroScene.getStylesheets().add("styles_light.css");
-            journalScene.getStylesheets().add("styles_light.css");
-            todoListScene.getStylesheets().add("styles_light.css");
             currentTheme = "light";
         }
     }

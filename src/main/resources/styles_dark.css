@@ -1,7 +1,12 @@
-/* Center everything */
 .root {
+    -fx-background-color: #000000;
+    -fx-text-fill: white;
     -fx-alignment: center;
 }
+
+
+/* Center everything */
+
 
 /* Style buttons */
 .button {

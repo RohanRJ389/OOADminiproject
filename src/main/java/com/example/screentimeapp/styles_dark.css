@@ -1,14 +1,19 @@
-/* Center everything */
 .root {
+    -fx-background-color: #333;
+    -fx-text-fill: white;
     -fx-alignment: center;
 }
+
+
+/* Center everything */
+
 
 /* Style buttons */
 .button {
     -fx-font-size: 14px;
     -fx-padding: 10px 20px;
     -fx-margin: 10px 20px;
-    -fx-background-color: #0000FF; /* Green */
+    -fx-background-color: #4CAF50; /* Green */
     -fx-text-fill: white;
     -fx-border-radius: 5px;
     -fx-background-radius: 5px;
