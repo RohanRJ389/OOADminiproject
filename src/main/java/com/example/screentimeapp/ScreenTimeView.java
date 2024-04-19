@@ -240,21 +240,11 @@ public class ScreenTimeView implements Observer {
         }
 
     private void switchTheme() {
-//        String[] scenes_list = new String[10];
-//        scenes_list[10] = {"homeScene", "appWiseScene", "pomodoroScene", "journalScene", "todoListScene"};
         if ("light".equals(currentTheme)) {
             homeScene.getStylesheets().add("styles_dark.css");
-            appWiseScene.getStylesheets().add("styles_dark.css");
-            pomodoroScene.getStylesheets().add("styles_dark.css");
-            journalScene.getStylesheets().add("styles_dark.css");
-            todoListScene.getStylesheets().add("styles_dark.css");
             currentTheme = "dark";
         } else if ("dark".equals(currentTheme)) {
             homeScene.getStylesheets().add("styles_light.css");
-            appWiseScene.getStylesheets().add("styles_light.css");
-            pomodoroScene.getStylesheets().add("styles_light.css");
-            journalScene.getStylesheets().add("styles_light.css");
-            todoListScene.getStylesheets().add("styles_light.css");
             currentTheme = "light";
         }
     }
